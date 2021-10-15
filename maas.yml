@@ -46,7 +46,8 @@ runcmd:
 #- export IP_ADDRESS=$(ip -4 addr show ens4 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
 - export IP_ADDRESS=$(ip route | grep default | sort -t' ' -n -k11 | head -n1 | cut -d ' ' -f 9)
 - export INTERFACE=$(ip route | grep default | sort -t' ' -n -k11 | head -n1 | cut -d ' ' -f 5)
-- sysctl -w net.ipv4.ip_forward=1
+- sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
+- sysctl -p
 - iptables -t nat -A POSTROUTING -o $INTERFACE -j SNAT --to $IP_ADDRESS
 # Persist NAT configuration
 - echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
@@ -72,6 +73,7 @@ runcmd:
 - maas admin subnet update $SUBNET gateway_ip=10.10.10.1
 - maas admin ipranges create type=dynamic start_ip=10.10.10.200 end_ip=10.10.10.254
 - maas admin vlan update $FABRIC_ID $VLAN_TAG dhcp_on=True primary_rack=$PRIMARY_RACK
+- maas admin maas set-config name=upstream_dns value=8.8.8.8
 # Add LXD as a VM host for MAAS
 - maas admin vm-hosts create  password=password  type=lxd power_address=https://${IP_ADDRESS}:8443 project=maas
 # Wait for images to be synced to MAAS
