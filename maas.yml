@@ -38,7 +38,9 @@ packages:
   jq
 snap:
   commands:
-    - snap install maas
+# due to a bug related to lxd in 3.1, forcing to 3.0 for now
+    - snap install --channel=3.0/stable maas
+#   - snap install maas
     - snap install lxd
     - snap install maas-test-db
 runcmd:
