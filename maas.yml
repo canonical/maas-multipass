@@ -39,7 +39,7 @@ packages:
 snap:
   commands:
 # due to a bug related to lxd in 3.1, forcing to 3.0 for now
-    - snap install --channel=latest/stable maas
+    - snap install maas
 #   - snap install maas
     - snap install --channel=latest/stable lxd
     - snap install --channel=latest/stable maas-test-db
