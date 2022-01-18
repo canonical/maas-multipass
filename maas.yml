@@ -44,10 +44,9 @@ snap:
     - snap install --channel=latest/stable lxd
     - snap install maas-test-db
 runcmd:
-# Fetch IPv4 address from ens4 device, setup forwarding and NAT
-#- export IP_ADDRESS=$(ip -4 addr show ens4 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
-- export IP_ADDRESS=$(ip route | grep default | sort -t' ' -n -k11 | head -n1 | cut -d ' ' -f 9)
-- export INTERFACE=$(ip route | grep default | sort -t' ' -n -k11 | head -n1 | cut -d ' ' -f 5)
+# Fetch IPv4 address from the device, setup forwarding and NAT
+- export IP_ADDRESS=$(ip -j route show default | jq -r '.[].prefsrc')
+- export INTERFACE=$(ip -j route show default | jq -r '.[].dev')
 - sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/' /etc/sysctl.conf
 - sysctl -p
 - iptables -t nat -A POSTROUTING -o $INTERFACE -j SNAT --to $IP_ADDRESS
