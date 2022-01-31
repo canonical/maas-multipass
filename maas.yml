@@ -38,10 +38,9 @@ packages:
   jq
 snap:
   commands:
-# due to a bug related to lxd in 3.1, forcing to 3.0 for now
-#    - snap install maas
-    - snap install --channel=3.0/stable maas
-    - snap install --channel=latest/stable lxd
+    - snap install maas
+#    - snap install --channel=3.0/stable maas
+    - snap refresh --channel=latest/stable lxd
     - snap install maas-test-db
 runcmd:
 # Fetch IPv4 address from the device, setup forwarding and NAT
