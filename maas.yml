@@ -40,6 +40,7 @@ snap:
   commands:
     - snap install maas
 #    - snap install --channel=3.0/stable maas
+    - snap install --channel=latest/stable lxd
     - snap refresh --channel=latest/stable lxd
     - snap install maas-test-db
 runcmd:
