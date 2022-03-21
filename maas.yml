@@ -82,7 +82,7 @@ runcmd:
 - chown ubuntu:ubuntu /home/ubuntu/.ssh/id_rsa /home/ubuntu/.ssh/id_rsa.pub
 - chmod 600 /home/ubuntu/.ssh/id_rsa
 - chmod 644 /home/ubuntu/.ssh/id_rsa.pub
-- maas admin sshkeys create key=$(cat /home/ubuntu/.ssh/id_rsa.pub)
+- maas admin sshkeys create key="$(cat /home/ubuntu/.ssh/id_rsa.pub)"
 # Wait for images to be synced to MAAS
 #- echo "Waiting for images to be synced to MAAS ..."
 #- export status="downloading"
