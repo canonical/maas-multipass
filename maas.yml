@@ -87,4 +87,3 @@ runcmd:
 #- echo "Waiting for images to be synced to MAAS ..."
 #- export status="downloading"
 #- while [ "$status" != "synced" ]; do export status=$(maas admin rack-controller list-boot-images $PRIMARY_RACK | jq -r .status); sleep 1; done
-#todo generate ssh key and add it to maas 
