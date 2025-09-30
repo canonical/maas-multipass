@@ -38,8 +38,8 @@ packages:
   jq
 snap:
   commands:
-#    - snap install maas
-    - snap install --channel=3.5/stable maas
+    - snap install maas
+#    - snap install --channel=3.5/stable maas
 #    - snap install --channel=latest/stable lxd
 #    - snap refresh --channel=latest/stable lxd
     - snap install --channel=5.0/stable lxd
