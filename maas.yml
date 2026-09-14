@@ -43,8 +43,8 @@ snap:
     - snap install --channel=3.5/stable maas
 #    - snap install --channel=latest/stable lxd
 #    - snap refresh --channel=latest/stable lxd
-    - snap install --channel=5.0/stable lxd
-    - snap refresh --channel=5.0/stable lxd
+    - snap install --channel=5.21/stable lxd
+    - snap refresh --channel=5.21/stable lxd
     - snap install maas-test-db
     - snap install maas-test-db
 runcmd:
