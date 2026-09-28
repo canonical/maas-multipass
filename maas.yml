@@ -3,14 +3,6 @@ write_files:
     config:
       core.https_address: '[::]:8443'
       core.trust_password: password
-    networks:
-    - config:
-        ipv4.address: 10.10.10.1/24
-        ipv6.address: none
-      description: ""
-      name: lxdbr0
-      type: ""
-      project: default
     storage_pools:
     - config:
         size: 24GB
@@ -23,7 +15,8 @@ write_files:
       devices:
         eth0:
           name: eth0
-          network: lxdbr0
+          nictype: bridged
+          parent: maasbr0
           type: nic
         root:
           path: /
@@ -33,9 +26,17 @@ write_files:
     projects: []
     cluster: null
   path: /tmp/lxd.cfg
+- content: |
+    network:
+      version: 2
+      bridges:
+        maasbr0:
+          addresses:
+          - 10.10.10.1/24
+  path: /etc/netplan/60-maas-bridge.yaml
 
 packages:
-  jq
+  - jq
 snap:
   commands:
 #    - snap install maas
@@ -43,8 +44,8 @@ snap:
     - snap install --channel=3.5/stable maas
 #    - snap install --channel=latest/stable lxd
 #    - snap refresh --channel=latest/stable lxd
-    - snap install --channel=5.0/stable lxd
-    - snap refresh --channel=5.0/stable lxd
+    - snap install --channel=5.21/stable lxd
+    - snap refresh --channel=5.21/stable lxd
     - snap install maas-test-db
     - snap install maas-test-db
 runcmd:
@@ -59,6 +60,7 @@ runcmd:
 - echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
 - apt-get install iptables-persistent -y
 # LXD init
+- netplan apply
 - cat /tmp/lxd.cfg | lxd init --preseed
 # Wait for LXD to be ready
 - lxd waitready
